@@ -1,13 +1,5 @@
-<?php
+<?php 
 
-if(isset($_GET['page']) && !empty($_GET['page'])) {
-    $page = $_GET['page'];
-}
+require_once 'core/autoloader.php';
 
-else {
-    $page = 'Home';
-}
-
-$page = ucfirst($page);
-
-include('Controllers/'.$page.'Controller.php');
+$app = new App();

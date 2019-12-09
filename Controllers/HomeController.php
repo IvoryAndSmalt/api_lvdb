@@ -1,10 +1,16 @@
 <?php
 
-require('Models/Home.php');
+class HomeController extends Controller
+{
 
-if(isset($_GET['Film'])){
-    $film = $_GET['Film'];
-    $monFilm = afficherFilm($film);
-    require('Views/HomeView.php');
+    private $name = "Home";
+
+    public function getCtName(){
+        return $this->name;
+    }
+
+    public function index()
+    {
+        echo "Hello from Home controller";
+    }
 }
-
