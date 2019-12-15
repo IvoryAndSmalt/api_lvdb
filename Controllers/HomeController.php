@@ -3,14 +3,10 @@
 class HomeController extends Controller
 {
 
-    private $name = "Home";
-
-    public function getCtName(){
-        return $this->name;
-    }
+    protected $name = "Home";
 
     public function index()
     {
-        echo "Hello from Home controller";
+        $this->render("home/index");
     }
 }

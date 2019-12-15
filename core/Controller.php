@@ -1,11 +1,21 @@
-<?php 
+<?php
+class Controller
+{
 
-class Controller {
+  private function sendResponse($http_code, $data)
+  {
+    header('Content-type: application/json', true, $http_code);
+    $json = json_encode($data);
+    echo $json;
+  }
 
-    public function __contruct(){
+  public function returnError(Int $http_code, Array $data)
+  {
+    $this->sendResponse($http_code, $data);
+  }
 
-        $this->view = new View();
-
-    }
-
+  protected function returnData(Int $http_code, Array $data)
+  {
+    $this->sendResponse($http_code, $data);
+  }
 }
