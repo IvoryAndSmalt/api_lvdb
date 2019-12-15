@@ -24,7 +24,7 @@ class Router
       if (file_exists('Controllers/' . $controllerName . 'Controller.php')) {
         $controllerClass = $controllerName . 'Controller';
         $controller = new $controllerClass($auth_token);
-        //2B. Method if tokens is not empty
+        //2B. token analysis for specified request
         if (!empty($tokens)) {
           $method = array_shift($tokens);
           if (method_exists($controller, $method)) {

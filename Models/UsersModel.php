@@ -27,8 +27,12 @@ class UsersModel extends Db
 
   public function getUsersByCriterion($criterion, $value)
   {
-    $stmt = $this->dbh->prepare('SELECT * FROM users where users.? = ?');
-    $stmt->execute([$criterion, $value]);
+    var_dump($criterion, $value);
+    // Filter criterion
+    
+    filter_var($criterion, FILTER_SANITIZE)
+    $stmt = $this->dbh->prepare('SELECT * FROM users WHERE ? = ?;');
+    $stmt->execute(["users.".$criterion, $value]);
     return $stmt->fetchAll();
   }
 }
