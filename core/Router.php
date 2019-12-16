@@ -13,10 +13,7 @@ class Router
       $auth_token = array_shift($tokens);
       if (empty($tokens)) {
         $controller = new Controller();
-        $controller->returnError(400, [
-          "error_code" => 400,
-          "error_text" => "Bad request"
-        ]);
+        $controller->sendError(400);
         die;
       };
       //2A. controller
@@ -28,37 +25,35 @@ class Router
         if (!empty($tokens)) {
           $method = array_shift($tokens);
           if (method_exists($controller, $method)) {
-            //2C. parameters
+            //2C. Call method with parameters
             $controller->$method($tokens);
           }
-          //wrong method; call 404 with method name
+          //wrong method; call 405 method not allowed
           else {
             $controller = new Controller();
-            $controller->returnError(400, [
-              "error_code" => 400,
-              "error_text" => "Bad request"
-            ]);
-            die;
+            $controller->sendError(405);
           }
         }
         //tokens is empty (no method specified), method called: index()
         else {
-          $controller->index();
+          if (method_exists($controller, "index")) {
+            $controller->index();
+          } else {
+            $controller = new Controller();
+            $controller->sendError(400);
+          }
         }
       }
       //controller not found; call 404 controller name.
       else {
-        $requestedControllerName = $controllerName;
-        $controllerClass = 'NotFoundController';
-        $notfound = new $controllerClass;
-        $notfound->displayErrorMessage($requestedControllerName, false);
+        $controller = new Controller();
+        $controller->sendError(404);
       }
     }
-    //no url has been passed, calling home controller
+    //no url has been passed, bad request
     else {
-      $controllerClass = 'HomeController';
-      $home = new $controllerClass();
-      $home->index();
+      $controller = new Controller();
+      $controller->sendError(400);
     }
   }
 }

@@ -1,6 +1,6 @@
 <?php
 
-class UsersModel extends Db
+class PostsModel extends Db
 {
 
   private $dbh;
@@ -9,7 +9,7 @@ class UsersModel extends Db
   {
     if ($this->dbh = Db::connect($token)) { } else {
       $controller = new Controller();
-      $controller->sendJson(403, [
+      $controller->returnError(403, [
         "error_code" => 403,
         "error_text" => "Unauthorized: invalid token"
       ]);
@@ -28,7 +28,7 @@ class UsersModel extends Db
     return $columns;
   }
 
-  public function getAllUsers()
+  public function getAllPosts()
   {
     $stmt = $this->dbh->query('SELECT * FROM users');
     return $stmt->fetchAll();
@@ -42,7 +42,7 @@ class UsersModel extends Db
       return $stmt->fetchAll();
     }
     else{
-      return false;
+      Controller::sendError(400);
     }
   }
 }
